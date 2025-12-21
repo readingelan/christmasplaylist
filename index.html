@@ -84,22 +84,6 @@ iframe {
   text-align: left;
 }
 
-/* ⏱ Progress */
-.progress-wrap {
-  width: 100%;
-  height: 7px;
-  background: #222;
-  border-radius: 999px;
-  overflow: hidden;
-  margin-bottom: 18px;
-}
-
-.progress-bar {
-  height: 100%;
-  width: 0%;
-  background: linear-gradient(90deg, #ff4fa3, #ffb7d5);
-}
-
 /* 🎛 Controls */
 .controls {
   display: flex;
@@ -171,9 +155,6 @@ button.active {
 
   <div class="now-playing" id="nowPlaying">Now Playing: —</div>
 
-  <div class="progress-wrap">
-    <div class="progress-bar" id="progressBar"></div>
-  </div>
 
   <div class="controls">
     <button onclick="prevTrack()">◀ Prev</button>
@@ -293,14 +274,6 @@ function updateActive() {
     }
   });
 }
-
-setInterval(()=>{
-  if(player?.getDuration){
-    const d=player.getDuration();
-    const c=player.getCurrentTime();
-    if(d>0) progressBar.style.width=(c/d)*100+"%";
-  }
-},500);
 
 loadPlaylist();
 </script>

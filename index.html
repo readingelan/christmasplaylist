@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>메리나 크리스마스 플레이어<title>
+<title>메리나 크리스마스</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
 <script src="https://www.youtube.com/iframe_api"></script>
@@ -22,18 +22,11 @@ body {
   margin: auto;
 }
 
-.now-playing {
-  text-align: center;
-  font-size: 0.9em;
-  color: #bbb;
-  margin-bottom: 6px;
-}
-
 /* ✨ Neon */
 .neon-youtube {
   display: block;
   text-align: center;
-  margin-bottom: 14px;
+  margin-bottom: 16px;
   font-family: "Pacifico", cursive;
   font-size: clamp(24px, 5vw, 36px);
   color: #ffb7d5;
@@ -41,8 +34,6 @@ body {
   opacity: 0.25;
   text-shadow: none;
   transition: all 0.4s ease;
-  position: relative;
-  z-index: 10;
 }
 
 .neon-youtube.on {
@@ -54,15 +45,11 @@ body {
     0 0 40px rgba(255,79,163,0.9);
 }
 
-.neon-youtube span {
-  margin-right: 6px;
-}
-
 /* 📺 TV */
 .tv {
   display: flex;
   justify-content: center;
-  margin-bottom: 20px;
+  margin-bottom: 12px;
 }
 
 .tv-frame {
@@ -73,7 +60,6 @@ body {
     inset -6px -6px 0 rgba(0,0,0,0.35),
     inset 6px 6px 0 rgba(255,255,255,0.05),
     0 20px 45px rgba(0,0,0,0.6);
-  position: relative;
 }
 
 .tv-screen {
@@ -90,6 +76,16 @@ iframe {
   border: none;
 }
 
+/* ▶ Now Playing (NEW POSITION) */
+.now-playing {
+  max-width: 760px;
+  margin: 6px auto 10px;
+  text-align: left;
+  font-size: 0.9em;
+  color: #bbb;
+  padding-left: 4px;
+}
+
 /* ⏱ Progress */
 .progress-wrap {
   width: 100%;
@@ -97,7 +93,7 @@ iframe {
   height: 6px;
   background: #222;
   border-radius: 999px;
-  margin: 0 auto 20px;
+  margin: 0 auto 18px;
   overflow: hidden;
 }
 
@@ -105,7 +101,6 @@ iframe {
   height: 100%;
   width: 0%;
   background: linear-gradient(90deg, #ff4fa3, #ffb7d5);
-  transition: width 0.3s linear;
 }
 
 /* 🎛 Controls */
@@ -156,13 +151,11 @@ button.active {
 <body>
 <div class="container">
 
-  <div class="now-playing" id="nowPlaying">Now Playing: —</div>
-
   <a class="neon-youtube"
      href="https://www.youtube.com/@lenaparklive"
      target="_blank"
      rel="noopener noreferrer">
-    <span>▶</span>@lenaparklive
+    ▶ @lenaparklive
   </a>
 
   <div class="tv">
@@ -172,6 +165,9 @@ button.active {
       </div>
     </div>
   </div>
+
+  <!-- 🔽 MOVED HERE -->
+  <div class="now-playing" id="nowPlaying">Now Playing: —</div>
 
   <div class="progress-wrap">
     <div class="progress-bar" id="progressBar"></div>
@@ -190,17 +186,74 @@ button.active {
 
 <script>
 const tracks = [
-  { title:"White Christmas", note:"Jazz Ver.", videoId:"f5V0PpyTXNI", start:95 },
-  { title:"Santa Tell Me", note:"", videoId:"UDJJnVyUvmA", start:149 },
-  { title:"싱숭생숭", note:"with 다이나믹 듀오", videoId:"C_zfF1xdYHQ", start:1 },
-  { title:"It's a New Christmas", note:"015B with 박정현", videoId:"0MxxHi-l9vM", start:0 },
-  { title:"All I Want for Christmas Is You", note:"2010.12.12", videoId:"K04wfBmxB28", start:5 },
-  { title:"Let It Snow", note:"BMW 2022", videoId:"rJ0uQ4bZ0WY", start:0 },
-  { title:"Have Yourself A Merry Little Christmas", note:"BMW 2022", videoId:"rrK7QmfnJ1o", start:0 },
-  { title:"Last Christmas", note:"with 다이나믹 듀오", videoId:"mLeMqtAa1PQ", start:0, end:267 },
-  { title:"Santa Claus Is Coming To Town", note:"Play! 2024", videoId:"bdl5L0hYRtM", start:568, end:724 },
-  { title:"하얀겨울", note:"with 김범수", videoId:"er1RYWQf0Gc", start:0 },
-  { title:"Winter Kiss", note:"feat. 백찬", videoId:"Y-C9dZiWJaM", start:0 }
+  {
+    title: "White Christmas",
+    note: "Jazz Ver.",
+    videoId: "f5V0PpyTXNI",
+    start: 95
+  },
+  {
+    title: "Santa Tell Me",
+    note: "",
+    videoId: "UDJJnVyUvmA",
+    start: 149
+  },
+  {
+    title: "싱숭생숭",
+    note: "with 다이나믹 듀오",
+    videoId: "C_zfF1xdYHQ",
+    start: 1
+  },
+  {
+    title: "It's a New Christmas",
+    note: "015B with 박정현",
+    videoId: "0MxxHi-l9vM",
+    start: 0
+  },
+  {
+    title: "All I Want for Christmas Is You",
+    note: "2010.12.12",
+    videoId: "K04wfBmxB28",
+    start: 5
+  },
+  {
+    title: "Let It Snow",
+    note: "BMW 2022",
+    videoId: "rJ0uQ4bZ0WY",
+    start: 0
+  },
+  {
+    title: "Have Yourself A Merry Little Christmas",
+    note: "BMW 2022",
+    videoId: "rrK7QmfnJ1o",
+    start: 0
+  },
+  {
+    title: "Last Christmas",
+    note: "with 다이나믹 듀오",
+    videoId: "mLeMqtAa1PQ",
+    start: 0,
+    end: 267
+  },
+  {
+    title: "Santa Claus Is Coming To Town",
+    note: "Play! 2024",
+    videoId: "bdl5L0hYRtM",
+    start: 568,
+    end: 724
+  },
+  {
+    title: "하얀겨울",
+    note: "with 김범수",
+    videoId: "er1RYWQf0Gc",
+    start: 0
+  },
+  {
+    title: "Winter Kiss",
+    note: "feat. 백찬",
+    videoId: "Y-C9dZiWJaM",
+    start: 0
+  }
 ];
 
 let player;
@@ -231,7 +284,7 @@ function onYouTubeIframeAPIReady() {
       onStateChange: e => {
         if (e.data === YT.PlayerState.ENDED) {
           if (repeatMode === "one") playTrack(currentIndex);
-          else if (repeatMode === "all") nextTrack();
+          else nextTrack();
         }
       }
     }
@@ -243,18 +296,10 @@ function playTrack(i) {
   const t = tracks[i];
 
   if (isFirstPlay) {
-    player.cueVideoById({
-      videoId: t.videoId,
-      startSeconds: t.start || 0,
-      endSeconds: t.end
-    });
+    player.cueVideoById({ videoId:t.videoId, startSeconds:t.start||0, endSeconds:t.end });
     isFirstPlay = false;
   } else {
-    player.loadVideoById({
-      videoId: t.videoId,
-      startSeconds: t.start || 0,
-      endSeconds: t.end
-    });
+    player.loadVideoById({ videoId:t.videoId, startSeconds:t.start||0, endSeconds:t.end });
   }
 
   nowPlaying.textContent = "Now Playing: " + t.title;
@@ -263,14 +308,12 @@ function playTrack(i) {
 }
 
 function nextTrack() {
-  currentIndex = shuffle
-    ? Math.floor(Math.random() * tracks.length)
-    : (currentIndex + 1) % tracks.length;
+  currentIndex = shuffle ? Math.floor(Math.random()*tracks.length) : (currentIndex+1)%tracks.length;
   playTrack(currentIndex);
 }
 
 function prevTrack() {
-  currentIndex = (currentIndex - 1 + tracks.length) % tracks.length;
+  currentIndex = (currentIndex-1+tracks.length)%tracks.length;
   playTrack(currentIndex);
 }
 
@@ -280,44 +323,38 @@ function toggleShuffle() {
 }
 
 function toggleRepeat() {
-  repeatMode = repeatMode === "off" ? "one" : repeatMode === "one" ? "all" : "off";
+  repeatMode = repeatMode==="off"?"one":repeatMode==="one"?"all":"off";
   repeatBtn.textContent = "Repeat: " + repeatMode.toUpperCase();
-  repeatBtn.classList.toggle("active", repeatMode !== "off");
+  repeatBtn.classList.toggle("active", repeatMode!=="off");
 }
 
 function loadPlaylist() {
-  playlistEl.innerHTML = "";
-  tracks.forEach((t, i) => {
-    const d = document.createElement("div");
-    d.className = "track";
-    d.innerHTML = `<strong>${t.title}</strong><br><span>${t.note}</span>`;
-    d.onclick = () => playTrack(i);
+  playlistEl.innerHTML="";
+  tracks.forEach((t,i)=>{
+    const d=document.createElement("div");
+    d.className="track";
+    d.innerHTML=`<strong>${t.title}</strong><br><span>${t.note}</span>`;
+    d.onclick=()=>playTrack(i);
     playlistEl.appendChild(d);
   });
 }
 
 function updateActive() {
-  document.querySelectorAll(".track").forEach((el, i) => {
-    const active = i === currentIndex;
-    el.classList.toggle("active", active);
-    if (active) {
-      el.scrollIntoView({ behavior: "smooth", block: "center" });
-    }
+  document.querySelectorAll(".track").forEach((el,i)=>{
+    el.classList.toggle("active", i===currentIndex);
+    if(i===currentIndex) el.scrollIntoView({behavior:"smooth",block:"center"});
   });
 }
 
-setInterval(() => {
-  if (player && player.getDuration) {
-    const d = player.getDuration();
-    const c = player.getCurrentTime();
-    if (d > 0) {
-      progressBar.style.width = (c / d) * 100 + "%";
-    }
+setInterval(()=>{
+  if(player?.getDuration){
+    const d=player.getDuration();
+    const c=player.getCurrentTime();
+    if(d>0) progressBar.style.width=(c/d)*100+"%";
   }
-}, 500);
+},500);
 
 loadPlaylist();
 </script>
-
 </body>
 </html>

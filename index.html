@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>메리나 크리스마스 플레이어</title>
+<title>메리나 크리스마스</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
 <script src="https://www.youtube.com/iframe_api"></script>
@@ -18,21 +18,36 @@ body {
 }
 
 .container {
-  max-width: 900px;
+  max-width: 1200px;
   margin: auto;
 }
 
-/* ✨ Neon */
+/* 전체 레이아웃 */
+.layout {
+  display: flex;
+  gap: 24px;
+  align-items: flex-start;
+}
+
+/* ======================
+   🎬 PLAYER AREA (고정)
+====================== */
+.player-area {
+  flex: 0 0 min(420px, 100%);
+  position: sticky;
+  top: 20px;
+}
+
+/* Neon */
 .neon-youtube {
   display: block;
   text-align: center;
-  margin-bottom: 16px;
+  margin-bottom: 14px;
   font-family: "Pacifico", cursive;
-  font-size: clamp(24px, 5vw, 36px);
+  font-size: clamp(22px, 4vw, 34px);
   color: #ffb7d5;
   text-decoration: none;
   opacity: 0.25;
-  text-shadow: none;
   transition: all 0.4s ease;
 }
 
@@ -45,11 +60,11 @@ body {
     0 0 40px rgba(255,79,163,0.9);
 }
 
-/* 📺 TV */
+/* TV */
 .tv {
   display: flex;
   justify-content: center;
-  margin-bottom: 12px;
+  margin-bottom: 10px;
 }
 
 .tv-frame {
@@ -63,7 +78,7 @@ body {
 }
 
 .tv-screen {
-  width: min(760px, 94vw);
+  width: 100%;
   aspect-ratio: 16 / 9;
   background: black;
   border-radius: 12px;
@@ -76,25 +91,22 @@ iframe {
   border: none;
 }
 
-/* ▶ Now Playing (NEW POSITION) */
+/* Now Playing */
 .now-playing {
-  max-width: 760px;
-  margin: 6px auto 10px;
-  text-align: left;
   font-size: 0.9em;
   color: #bbb;
-  padding-left: 4px;
+  margin: 6px 4px 8px;
+  text-align: left;
 }
 
-/* ⏱ Progress */
+/* Progress */
 .progress-wrap {
   width: 100%;
-  max-width: 760px;
   height: 6px;
   background: #222;
   border-radius: 999px;
-  margin: 0 auto 18px;
   overflow: hidden;
+  margin-bottom: 16px;
 }
 
 .progress-bar {
@@ -103,20 +115,19 @@ iframe {
   background: linear-gradient(90deg, #ff4fa3, #ffb7d5);
 }
 
-/* 🎛 Controls */
+/* Controls */
 .controls {
   display: flex;
   gap: 8px;
   justify-content: center;
   flex-wrap: wrap;
-  margin-bottom: 20px;
 }
 
 button {
   background: #1f1f1f;
   color: #eee;
   border: none;
-  padding: 12px 16px;
+  padding: 10px 14px;
   border-radius: 8px;
   cursor: pointer;
 }
@@ -125,7 +136,16 @@ button.active {
   background: #444;
 }
 
-/* 🎵 Playlist */
+/* ======================
+   🎵 PLAYLIST AREA
+====================== */
+.playlist-wrap {
+  flex: 1;
+  max-height: calc(100vh - 40px);
+  overflow-y: auto;
+  padding-right: 6px;
+}
+
 .playlist {
   display: grid;
   gap: 10px;
@@ -138,122 +158,95 @@ button.active {
   cursor: pointer;
 }
 
-.track:hover { background: #2a2a2a; }
-.track.active { background: #3a3a3a; }
+.track:hover {
+  background: #2a2a2a;
+}
+
+.track.active {
+  background: #3a3a3a;
+}
 
 .track span {
   font-size: 0.8em;
   color: #aaa;
+}
+
+/* 📱 Mobile */
+@media (max-width: 900px) {
+  .layout {
+    flex-direction: column;
+  }
+
+  .player-area {
+    position: static;
+  }
+
+  .playlist-wrap {
+    max-height: none;
+    overflow: visible;
+  }
 }
 </style>
 </head>
 
 <body>
 <div class="container">
+  <div class="layout">
 
-  <a class="neon-youtube"
-     href="https://www.youtube.com/@lenaparklive"
-     target="_blank"
-     rel="noopener noreferrer">
-    ▶ @lenaparklive
-  </a>
+    <!-- 🎬 PLAYER -->
+    <div class="player-area">
 
-  <div class="tv">
-    <div class="tv-frame">
-      <div class="tv-screen">
-        <div id="player"></div>
+      <a class="neon-youtube"
+         href="https://www.youtube.com/@lenaparklive"
+         target="_blank"
+         rel="noopener noreferrer">
+        ▶ @lenaparklive
+      </a>
+
+      <div class="tv">
+        <div class="tv-frame">
+          <div class="tv-screen">
+            <div id="player"></div>
+          </div>
+        </div>
       </div>
+
+      <div class="now-playing" id="nowPlaying">Now Playing: —</div>
+
+      <div class="progress-wrap">
+        <div class="progress-bar" id="progressBar"></div>
+      </div>
+
+      <div class="controls">
+        <button onclick="prevTrack()">◀ Prev</button>
+        <button onclick="nextTrack()">Next ▶</button>
+        <button id="shuffleBtn" onclick="toggleShuffle()">Shuffle</button>
+        <button id="repeatBtn" onclick="toggleRepeat()">Repeat: OFF</button>
+      </div>
+
     </div>
+
+    <!-- 🎵 PLAYLIST -->
+    <div class="playlist-wrap">
+      <div class="playlist" id="playlist"></div>
+    </div>
+
   </div>
-
-  <!-- 🔽 MOVED HERE -->
-  <div class="now-playing" id="nowPlaying">Now Playing: —</div>
-
-  <div class="progress-wrap">
-    <div class="progress-bar" id="progressBar"></div>
-  </div>
-
-  <div class="controls">
-    <button onclick="prevTrack()">◀ Prev</button>
-    <button onclick="nextTrack()">Next ▶</button>
-    <button id="shuffleBtn" onclick="toggleShuffle()">Shuffle</button>
-    <button id="repeatBtn" onclick="toggleRepeat()">Repeat: OFF</button>
-  </div>
-
-  <div class="playlist" id="playlist"></div>
-
 </div>
 
 <script>
 const tracks = [
-  {
-    title: "White Christmas",
-    note: "Jazz Ver.",
-    videoId: "f5V0PpyTXNI",
-    start: 95
-  },
-  {
-    title: "Santa Tell Me",
-    note: "",
-    videoId: "UDJJnVyUvmA",
-    start: 149
-  },
-  {
-    title: "싱숭생숭",
-    note: "with 다이나믹 듀오",
-    videoId: "C_zfF1xdYHQ",
-    start: 1
-  },
-  {
-    title: "It's a New Christmas",
-    note: "015B with 박정현",
-    videoId: "0MxxHi-l9vM",
-    start: 0
-  },
-  {
-    title: "All I Want for Christmas Is You",
-    note: "2010.12.12",
-    videoId: "K04wfBmxB28",
-    start: 5
-  },
-  {
-    title: "Let It Snow",
-    note: "BMW 2022",
-    videoId: "rJ0uQ4bZ0WY",
-    start: 0
-  },
-  {
-    title: "Have Yourself A Merry Little Christmas",
-    note: "BMW 2022",
-    videoId: "rrK7QmfnJ1o",
-    start: 0
-  },
-  {
-    title: "Last Christmas",
-    note: "with 다이나믹 듀오",
-    videoId: "mLeMqtAa1PQ",
-    start: 0,
-    end: 267
-  },
-  {
-    title: "Santa Claus Is Coming To Town",
-    note: "Play! 2024",
-    videoId: "bdl5L0hYRtM",
-    start: 568,
-    end: 724
-  },
-  {
-    title: "하얀겨울",
-    note: "with 김범수",
-    videoId: "er1RYWQf0Gc",
-    start: 0
-  },
-  {
-    title: "Winter Kiss",
-    note: "feat. 백찬",
-    videoId: "Y-C9dZiWJaM",
-    start: 0
-  }
+  { title:"White Christmas", note:"Jazz Ver.", videoId:"f5V0PpyTXNI", start:95 },
+  { title:"Santa Tell Me", note:"", videoId:"UDJJnVyUvmA", start:149 },
+  { title:"싱숭생숭", note:"with 다이나믹 듀오", videoId:"C_zfF1xdYHQ", start:1 },
+  { title:"It's a New Christmas", note:"015B with 박정현", videoId:"0MxxHi-l9vM", start:0 },
+  { title:"All I Want for Christmas Is You", note:"2010.12.12", videoId:"K04wfBmxB28", start:5 },
+  { title:"Let It Snow", note:"BMW 2022", videoId:"rJ0uQ4bZ0WY", start:0 },
+  { title:"Have Yourself A Merry Little Christmas", note:"BMW 2022", videoId:"rrK7QmfnJ1o", start:0 },
+  { title:"Last Christmas", note:"with 다이나믹 듀오", videoId:"mLeMqtAa1PQ", start:0, end:267 },
+  { title:"Santa Claus Is Coming To Town", note:"Play! 2024", videoId:"bdl5L0hYRtM", start:568, end:724 },
+  { title:"하얀겨울", note:"with 김범수", videoId:"er1RYWQf0Gc", start:0 },
+  { title:"Winter Kiss", note:"feat. 백찬", videoId:"Y-C9dZiWJaM", start:0 }
 ];
 
 let player;
@@ -323,7 +316,7 @@ function toggleShuffle() {
 }
 
 function toggleRepeat() {
-  repeatMode = repeatMode==="off"?"one":repeatMode==="one"?"all":"off";
+  repeatMode = repeatMode==="off" ? "one" : repeatMode==="one" ? "all" : "off";
   repeatBtn.textContent = "Repeat: " + repeatMode.toUpperCase();
   repeatBtn.classList.toggle("active", repeatMode!=="off");
 }
@@ -342,7 +335,9 @@ function loadPlaylist() {
 function updateActive() {
   document.querySelectorAll(".track").forEach((el,i)=>{
     el.classList.toggle("active", i===currentIndex);
-    if(i===currentIndex) el.scrollIntoView({behavior:"smooth",block:"center"});
+    if(i===currentIndex){
+      el.scrollIntoView({behavior:"smooth", block:"center"});
+    }
   });
 }
 

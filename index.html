@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>메리나 크리스마스</title>
 
+<!-- Neon font -->
 <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
 <script src="https://www.youtube.com/iframe_api"></script>
 
@@ -22,6 +23,7 @@ body {
   margin: auto;
 }
 
+/* 🔊 Now playing */
 .now-playing {
   text-align: center;
   font-size: 0.9em;
@@ -29,13 +31,13 @@ body {
   margin-bottom: 6px;
 }
 
-/* ✨ Neon */
+/* ✨ Neon YouTube */
 .neon-youtube {
   display: block;
   text-align: center;
   margin-bottom: 16px;
   font-family: "Pacifico", cursive;
-  font-size: clamp(26px, 5vw, 36px);
+  font-size: clamp(24px, 5vw, 36px);
   color: #ffb7d5;
   text-decoration: none;
   position: relative;
@@ -49,9 +51,7 @@ body {
   animation: flicker 4s infinite;
 }
 
-.neon-youtube span {
-  margin-right: 6px;
-}
+.neon-youtube span { margin-right: 6px; }
 
 @keyframes flicker {
   0%, 100% { opacity: 1; }
@@ -76,7 +76,7 @@ body {
   position: relative;
 }
 
-/* 🎄 Christmas Lights */
+/* 🎄 Christmas lights */
 .lights {
   position: absolute;
   left: 12px;
@@ -149,9 +149,7 @@ button {
   cursor: pointer;
 }
 
-button.active {
-  background: #444;
-}
+button.active { background: #444; }
 
 /* 🎵 Playlist */
 .playlist {
@@ -218,20 +216,33 @@ button.active {
 </div>
 
 <script>
+/* 🎵 Playlist data */
 const tracks = [
-  { title:"Santa Tell Me", videoId:"UDJJnVyUvmA", start:149 },
-  { title:"White Christmas", videoId:"f5V0PpyTXNI", start:95 },
-  { title:"Last Christmas", videoId:"mLeMqtAa1PQ", start:0, end:267 }
+  { title:"Santa Tell Me", note:"", videoId:"UDJJnVyUvmA", start:149 },
+  { title:"White Christmas", note:"Jazz Ver.", videoId:"f5V0PpyTXNI", start:95 },
+  { title:"싱숭생숭", note:"with 다이나믹 듀오", videoId:"C_zfF1xdYHQ", start:1 },
+
+  { title:"It's a New Christmas", note:"015B with 박정현", videoId:"0MxxHi-l9vM", start:0 },
+  { title:"All I Want for Christmas Is You", note:"한중가요제 (2010.12.12)", videoId:"K04wfBmxB28", start:5 },
+  { title:"Let It Snow", note:"BMW 연말 콘서트 (2022.12.17)", videoId:"rJ0uQ4bZ0WY", start:0 },
+  { title:"Have Yourself A Merry Little Christmas", note:"BMW 연말 콘서트 (2022.12.17)", videoId:"rrK7QmfnJ1o", start:0 },
+  { title:"Last Christmas", note:"with 다이나믹 듀오", videoId:"mLeMqtAa1PQ", start:0, end:267 },
+  { title:"Santa Claus Is Coming To Town (울면 안돼)", note:"Play! 콘서트 (2024.12.20)", videoId:"bdl5L0hYRtM", start:568, end:724 },
+  { title:"하얀겨울", note:"with 김범수", videoId:"er1RYWQf0Gc", start:0 },
+  { title:"Winter Kiss", note:"feat. 백찬", videoId:"Y-C9dZiWJaM", start:0 }
 ];
 
-let player, currentIndex = 0;
-let shuffle = false, repeatMode = "off";
+let player;
+let currentIndex = 0;
+let shuffle = false;
+let repeatMode = "off";
 
 const nowPlaying = document.getElementById("nowPlaying");
 const playlistEl = document.getElementById("playlist");
 const shuffleBtn = document.getElementById("shuffleBtn");
 const repeatBtn = document.getElementById("repeatBtn");
 
+/* YouTube API */
 function onYouTubeIframeAPIReady() {
   player = new YT.Player("player", {
     videoId: tracks[0].videoId,
@@ -261,7 +272,8 @@ function playTrack(i) {
 }
 
 function nextTrack() {
-  currentIndex = shuffle ? Math.floor(Math.random() * tracks.length)
+  currentIndex = shuffle
+    ? Math.floor(Math.random() * tracks.length)
     : (currentIndex + 1) % tracks.length;
   playTrack(currentIndex);
 }
@@ -287,7 +299,7 @@ function loadPlaylist() {
   tracks.forEach((t, i) => {
     const d = document.createElement("div");
     d.className = "track";
-    d.innerHTML = `<strong>${t.title}</strong>`;
+    d.innerHTML = `<strong>${t.title}</strong><br><span>${t.note}</span>`;
     d.onclick = () => playTrack(i);
     playlistEl.appendChild(d);
   });
@@ -301,5 +313,6 @@ function updateActive() {
 
 loadPlaylist();
 </script>
+
 </body>
 </html>

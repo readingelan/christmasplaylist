@@ -88,7 +88,8 @@
   <div class="now-playing" id="nowPlaying">Now Playing: —</div>
 
   <div class="player">
-    <iframe id="player"
+    <iframe
+      id="player"
       src=""
       allow="autoplay; encrypted-media"
       allowfullscreen>
@@ -125,29 +126,27 @@ const tracks = [
     videoId: "C_zfF1xdYHQ",
     start: 1
   },
-
-  /* 추가한 YouTube 링크들 */
   {
     title: "It's a New Christmas",
-    note: "015B with 박정현 ",
+    note: "015B with 박정현",
     videoId: "0MxxHi-l9vM",
     start: 0
   },
   {
-    title: "All I Want for Christmas is You",
-    note: "박정현 at 한중가요제(2010.12.12) ",
+    title: "All I Want for Christmas Is You",
+    note: "박정현 at 한중가요제 (2010.12.12)",
     videoId: "K04wfBmxB28",
     start: 5
   },
   {
     title: "Let It Snow",
-    note: "박정현 at BMW 연말 콘서트(2022.12.17)",
+    note: "박정현 at BMW 연말 콘서트 (2022.12.17)",
     videoId: "rJ0uQ4bZ0WY",
     start: 0
   },
   {
     title: "Have Yourself A Merry Little Christmas",
-    note: "박정현 at BMW 연말 콘서트(2022.12.17)",
+    note: "박정현 at BMW 연말 콘서트 (2022.12.17)",
     videoId: "rrK7QmfnJ1o",
     start: 0
   },
@@ -155,27 +154,28 @@ const tracks = [
     title: "Last Christmas",
     note: "박정현 with 다이나믹 듀오",
     videoId: "mLeMqtAa1PQ",
-    start: 0
+    start: 0,
     end: 267
   },
   {
-    title: "Santa Claus is Coming To Town (울면 안돼)",
-    note: "박정현 at Play!콘서트(2024.12.20) ",
+    title: "Santa Claus Is Coming To Town (울면 안돼)",
+    note: "박정현 at Play! 콘서트 (2024.12.20)",
     videoId: "bdl5L0hYRtM",
-    start: 568
+    start: 568,
     end: 724
   },
   {
     title: "하얀겨울",
     note: "박정현 with 김범수",
-    videoId: "1RYWQf0Gcf",
-    start:0,
-    {
+    videoId: "er1RYWQf0Gc",
+    start: 0
+  },
   {
     title: "Winter Kiss",
-    note: "박정현 feat.백찬",
+    note: "박정현 feat. 백찬",
     videoId: "Y-C9dZiWJaM",
-    start: 0
+    start: 0,
+    end: 266
   }
 ];
 
@@ -192,7 +192,8 @@ function loadPlaylist() {
   tracks.forEach((track, index) => {
     const div = document.createElement("div");
     div.className = "track";
-    div.innerHTML = `<strong>${track.title}</strong><br><span>${track.note}</span>`;
+    div.innerHTML =
+      `<strong>${track.title}</strong><br><span>${track.note}</span>`;
     div.onclick = () => playTrack(index);
     playlistEl.appendChild(div);
   });
@@ -201,7 +202,18 @@ function loadPlaylist() {
 function playTrack(index) {
   currentIndex = index;
   const track = tracks[index];
-  player.src = `https://www.youtube.com/embed/${track.videoId}?start=${track.start}&autoplay=1&enablejsapi=1`;
+
+  let src =
+    `https://www.youtube.com/embed/${track.videoId}?autoplay=1&enablejsapi=1`;
+
+  if (track.start !== undefined) {
+    src += `&start=${track.start}`;
+  }
+  if (track.end !== undefined) {
+    src += `&end=${track.end}`;
+  }
+
+  player.src = src;
   nowPlaying.textContent = `Now Playing: ${track.title}`;
   updateActive();
 }
@@ -213,11 +225,9 @@ function updateActive() {
 }
 
 function nextTrack() {
-  if (shuffle) {
-    currentIndex = Math.floor(Math.random() * tracks.length);
-  } else {
-    currentIndex = (currentIndex + 1) % tracks.length;
-  }
+  currentIndex = shuffle
+    ? Math.floor(Math.random() * tracks.length)
+    : (currentIndex + 1) % tracks.length;
   playTrack(currentIndex);
 }
 
@@ -233,13 +243,6 @@ function toggleShuffle() {
 
 loadPlaylist();
 playTrack(0);
-
-// 자동 다음곡 (영상 종료 후)
-window.addEventListener("message", (e) => {
-  if (typeof e.data === "string" && e.data.includes("ended")) {
-    nextTrack();
-  }
-});
 </script>
 
 </body>

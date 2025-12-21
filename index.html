@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
-<title>메리나 크리스마스 Playlist</title>
+<title>메리나 크리스마스!</title>
 
 <style>
   body {
@@ -24,17 +24,98 @@
     color: #bbb;
   }
 
-  .player {
-    aspect-ratio: 16 / 9;
-    background: black;
-    margin-bottom: 20px;
+  /* 🎄 Christmas Retro TV */
+
+  .tv {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 32px;
   }
 
-  iframe {
+  .tv-frame {
+    background: linear-gradient(145deg, #5a2f1a, #3b1f12);
+    padding: 22px;
+    border-radius: 20px;
+    box-shadow:
+      inset -6px -6px 0 rgba(0,0,0,0.35),
+      inset 6px 6px 0 rgba(255,255,255,0.05),
+      0 20px 45px rgba(0,0,0,0.6);
+    position: relative;
+  }
+
+  /* 골드 다이얼 */
+  .tv-frame::after {
+    content: "";
+    position: absolute;
+    right: -24px;
+    top: 42%;
+    width: 18px;
+    height: 18px;
+    background: radial-gradient(circle at 30% 30%, #fff4c2, #b28b2e);
+    border-radius: 50%;
+    box-shadow:
+      0 0 0 4px #2a1a0e,
+      0 0 0 6px #6b4a1d;
+  }
+
+  /* 장식 조명 */
+  .lights {
+    position: absolute;
+    top: -14px;
+    left: 12px;
+    right: 12px;
+    display: flex;
+    justify-content: space-between;
+    pointer-events: none;
+  }
+
+  .lights span {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #c33;
+    box-shadow: 0 0 6px #c33;
+  }
+
+  .lights span:nth-child(3n) {
+    background: #2e8b57;
+    box-shadow: 0 0 6px #2e8b57;
+  }
+
+  .lights span:nth-child(4n) {
+    background: #d4af37;
+    box-shadow: 0 0 6px #d4af37;
+  }
+
+  /* 화면 (16:9 유지) */
+  .tv-screen {
+    width: 760px;
+    max-width: 92vw;
+    aspect-ratio: 16 / 9;
+    background: #000;
+    border-radius: 14px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .tv-screen::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(circle at center,
+        rgba(255,240,200,0.12),
+        rgba(0,0,0,0.8));
+    pointer-events: none;
+  }
+
+  .tv-screen iframe {
     width: 100%;
     height: 100%;
     border: none;
   }
+
+  /* Controls & Playlist */
 
   .controls {
     display: flex;
@@ -87,13 +168,22 @@
 
   <div class="now-playing" id="nowPlaying">Now Playing: —</div>
 
-  <div class="player">
-    <iframe
-      id="player"
-      src=""
-      allow="autoplay; encrypted-media"
-      allowfullscreen>
-    </iframe>
+  <div class="tv">
+    <div class="tv-frame">
+      <div class="lights">
+        <span></span><span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span><span></span>
+      </div>
+
+      <div class="tv-screen">
+        <iframe
+          id="player"
+          src=""
+          allow="autoplay; encrypted-media"
+          allowfullscreen>
+        </iframe>
+      </div>
+    </div>
   </div>
 
   <div class="controls">
@@ -108,75 +198,17 @@
 
 <script>
 const tracks = [
-  {
-    title: "Santa Tell Me",
-    note: "",
-    videoId: "UDJJnVyUvmA",
-    start: 149
-  },
-  {
-    title: "White Christmas",
-    note: "Jazz Ver.",
-    videoId: "f5V0PpyTXNI",
-    start: 95
-  },
-  {
-    title: "싱숭생숭",
-    note: "with 다이나믹 듀오",
-    videoId: "C_zfF1xdYHQ",
-    start: 1
-  },
-  {
-    title: "It's a New Christmas",
-    note: "015B with 박정현",
-    videoId: "0MxxHi-l9vM",
-    start: 0
-  },
-  {
-    title: "All I Want for Christmas Is You",
-    note: "박정현 at 한중가요제 (2010.12.12)",
-    videoId: "K04wfBmxB28",
-    start: 5
-  },
-  {
-    title: "Let It Snow",
-    note: "박정현 at BMW 연말 콘서트 (2022.12.17)",
-    videoId: "rJ0uQ4bZ0WY",
-    start: 0
-  },
-  {
-    title: "Have Yourself A Merry Little Christmas",
-    note: "박정현 at BMW 연말 콘서트 (2022.12.17)",
-    videoId: "rrK7QmfnJ1o",
-    start: 0
-  },
-  {
-    title: "Last Christmas",
-    note: "박정현 with 다이나믹 듀오",
-    videoId: "mLeMqtAa1PQ",
-    start: 0,
-    end: 267
-  },
-  {
-    title: "Santa Claus Is Coming To Town (울면 안돼)",
-    note: "박정현 at Play! 콘서트 (2024.12.20)",
-    videoId: "bdl5L0hYRtM",
-    start: 568,
-    end: 724
-  },
-  {
-    title: "하얀겨울",
-    note: "박정현 with 김범수",
-    videoId: "er1RYWQf0Gc",
-    start: 0
-  },
-  {
-    title: "Winter Kiss",
-    note: "박정현 feat. 백찬",
-    videoId: "Y-C9dZiWJaM",
-    start: 0,
-    end: 266
-  }
+  { title: "Santa Tell Me", note: "", videoId: "UDJJnVyUvmA", start: 149 },
+  { title: "White Christmas", note: "Jazz Ver.", videoId: "f5V0PpyTXNI", start: 95 },
+  { title: "싱숭생숭", note: "with 다이나믹 듀오", videoId: "C_zfF1xdYHQ", start: 1 },
+  { title: "It's a New Christmas", note: "015B with 박정현", videoId: "0MxxHi-l9vM", start: 0 },
+  { title: "All I Want for Christmas Is You", note: "박정현 (2010)", videoId: "K04wfBmxB28", start: 5 },
+  { title: "Let It Snow", note: "BMW 연말 콘서트", videoId: "rJ0uQ4bZ0WY", start: 0 },
+  { title: "Have Yourself A Merry Little Christmas", note: "BMW 연말 콘서트", videoId: "rrK7QmfnJ1o", start: 0 },
+  { title: "Last Christmas", note: "with 다이나믹 듀오", videoId: "mLeMqtAa1PQ", start: 0, end: 267 },
+  { title: "Santa Claus Is Coming To Town", note: "Play! 콘서트", videoId: "bdl5L0hYRtM", start: 568, end: 724 },
+  { title: "하얀겨울", note: "with 김범수", videoId: "er1RYWQf0Gc", start: 0 },
+  { title: "Winter Kiss", note: "feat. 백찬", videoId: "Y-C9dZiWJaM", start: 0, end: 266 }
 ];
 
 let currentIndex = 0;
@@ -192,8 +224,7 @@ function loadPlaylist() {
   tracks.forEach((track, index) => {
     const div = document.createElement("div");
     div.className = "track";
-    div.innerHTML =
-      `<strong>${track.title}</strong><br><span>${track.note}</span>`;
+    div.innerHTML = `<strong>${track.title}</strong><br><span>${track.note}</span>`;
     div.onclick = () => playTrack(index);
     playlistEl.appendChild(div);
   });
@@ -203,15 +234,9 @@ function playTrack(index) {
   currentIndex = index;
   const track = tracks[index];
 
-  let src =
-    `https://www.youtube.com/embed/${track.videoId}?autoplay=1&enablejsapi=1`;
-
-  if (track.start !== undefined) {
-    src += `&start=${track.start}`;
-  }
-  if (track.end !== undefined) {
-    src += `&end=${track.end}`;
-  }
+  let src = `https://www.youtube.com/embed/${track.videoId}?autoplay=1&enablejsapi=1`;
+  if (track.start !== undefined) src += `&start=${track.start}`;
+  if (track.end !== undefined) src += `&end=${track.end}`;
 
   player.src = src;
   nowPlaying.textContent = `Now Playing: ${track.title}`;

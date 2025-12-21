@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>메리나 크리스마스 플레이어 1.2</title>
+<title>메리나 크리스마스 플레이어 1.0 </title>
 
 <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
 <script src="https://www.youtube.com/iframe_api"></script>
@@ -44,35 +44,11 @@ body {
     0 0 40px rgba(255,79,163,0.9);
 }
 
-/* 🎄 TV + Christmas Lights */
+/* 📺 TV */
 .tv {
   display: flex;
   justify-content: center;
   margin-bottom: 14px;
-  position: relative;
-}
-
-.tv-lights {
-  position: relative;
-  display: inline-block;
-}
-
-.tv-lights .light {
-  position: absolute;
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  animation: blink 1.5s infinite alternate;
-  z-index: 2;
-}
-
-.tv-lights .light.top { top: -20px; }
-.tv-lights .light.bottom { bottom: -20px; }
-
-@keyframes blink {
-  0% { opacity: 0.2; transform: scale(0.8); }
-  50% { opacity: 1; transform: scale(1.2); }
-  100% { opacity: 0.2; transform: scale(0.8); }
 }
 
 .tv-frame {
@@ -84,8 +60,6 @@ body {
     inset -6px -6px 0 rgba(0,0,0,0.35),
     inset 6px 6px 0 rgba(255,255,255,0.05),
     0 20px 45px rgba(0,0,0,0.6);
-  position: relative;
-  z-index: 1;
 }
 
 .tv-screen {
@@ -172,16 +146,15 @@ button.active {
   </a>
 
   <div class="tv">
-    <div class="tv-lights" id="tvLights">
-      <div class="tv-frame">
-        <div class="tv-screen">
-          <div id="player"></div>
-        </div>
+    <div class="tv-frame">
+      <div class="tv-screen">
+        <div id="player"></div>
       </div>
     </div>
   </div>
 
   <div class="now-playing" id="nowPlaying">Now Playing: —</div>
+
 
   <div class="controls">
     <button onclick="prevTrack()">◀ Prev</button>
@@ -222,7 +195,7 @@ const nowPlaying = document.getElementById("nowPlaying");
 const playlistEl = document.getElementById("playlist");
 const shuffleBtn = document.getElementById("shuffleBtn");
 const repeatBtn = document.getElementById("repeatBtn");
-const tvLights = document.getElementById("tvLights");
+const progressBar = document.getElementById("progressBar");
 
 function neonFlash() {
   neon.classList.remove("on");
@@ -230,38 +203,12 @@ function neonFlash() {
   neon.classList.add("on");
 }
 
-// 🎄 TV 주변 전구 만들기 (위/아래)
-function createLights() {
-  const totalLights = 12;
-  const spacing = 100 / (totalLights - 1);
-
-  for(let i=0;i<totalLights;i++){
-    const colors = ["red","green","yellow","blue"];
-
-    const lightTop = document.createElement("div");
-    lightTop.className = "light top";
-    lightTop.style.left = i*spacing + "%";
-    lightTop.style.background = colors[i%colors.length];
-    lightTop.style.animationDelay = (Math.random()*1.5) + "s";
-    tvLights.appendChild(lightTop);
-
-    const lightBottom = document.createElement("div");
-    lightBottom.className = "light bottom";
-    lightBottom.style.left = i*spacing + "%";
-    lightBottom.style.background = colors[(i+1)%colors.length];
-    lightBottom.style.animationDelay = (Math.random()*1.5) + "s";
-    tvLights.appendChild(lightBottom);
-  }
-}
-
 function onYouTubeIframeAPIReady() {
   player = new YT.Player("player", {
     videoId: tracks[0].videoId,
     playerVars: { autoplay: 0 },
     events: {
-      onReady: () => {
-        // 첫 곡은 수동 재생
-      },
+      onReady: () => playTrack(0),
       onStateChange: e => {
         if (e.data === YT.PlayerState.ENDED) {
           repeatMode === "one" ? playTrack(currentIndex) : nextTrack();
@@ -328,9 +275,7 @@ function updateActive() {
   });
 }
 
-// 초기 실행
 loadPlaylist();
-createLights();
 </script>
 </body>
 </html>

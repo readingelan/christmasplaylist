@@ -4,191 +4,187 @@
 <meta charset="UTF-8">
 <title>메리나 크리스마스!</title>
 
-<!-- ✨ Neon Font -->
+<!-- Neon Font -->
 <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+<script src="https://www.youtube.com/iframe_api"></script>
 
 <style>
-  body {
-    margin: 0;
-    padding: 30px;
-    background: #0e0e0e;
-    color: #eee;
-    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-  }
+body {
+  margin: 0;
+  padding: 30px;
+  background: #0e0e0e;
+  color: #eee;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+}
 
-  .container {
-    max-width: 860px;
-    margin: auto;
-  }
+.container {
+  max-width: 860px;
+  margin: auto;
+}
 
-  .now-playing {
-    margin-bottom: 12px;
-    font-size: 0.95em;
-    color: #bbb;
-  }
+.now-playing {
+  margin-bottom: 8px;
+  font-size: 0.95em;
+  color: #bbb;
+}
 
-  /* 🎄 Christmas Retro TV */
+/* ✨ Neon YouTube Handle */
+.neon-youtube {
+  text-align: center;
+  margin-bottom: 12px;
+  font-family: "Pacifico", cursive;
+  font-size: 36px;
+  color: #ffb7d5;
+  text-shadow:
+    0 0 4px #ff8ccf,
+    0 0 10px #ff4fa3,
+    0 0 20px #ff4fa3,
+    0 0 40px rgba(255,79,163,0.8);
+  letter-spacing: 1.5px;
+  transform: rotate(-1deg);
+  animation: neonFlicker 4s infinite;
+}
 
-  .tv {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 10px;
-  }
+.neon-youtube span {
+  margin-right: 10px;
+}
 
-  .tv-frame {
-    background: linear-gradient(145deg, #5a2f1a, #3b1f12);
-    padding: 22px;
-    border-radius: 20px;
-    box-shadow:
-      inset -6px -6px 0 rgba(0,0,0,0.35),
-      inset 6px 6px 0 rgba(255,255,255,0.05),
-      0 20px 45px rgba(0,0,0,0.6);
-    position: relative;
-  }
+@keyframes neonFlicker {
+  0%, 100% { opacity: 1; }
+  96% { opacity: 0.85; }
+  97% { opacity: 0.6; }
+  98% { opacity: 0.9; }
+}
 
-  /* 골드 다이얼 */
-  .tv-frame::after {
-    content: "";
-    position: absolute;
-    right: -24px;
-    top: 42%;
-    width: 18px;
-    height: 18px;
-    background: radial-gradient(circle at 30% 30%, #fff4c2, #b28b2e);
-    border-radius: 50%;
-    box-shadow:
-      0 0 0 4px #2a1a0e,
-      0 0 0 6px #6b4a1d;
-  }
+/* 📺 Retro TV */
+.tv {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 26px;
+}
 
-  /* 🎄 장식 조명 */
-  .lights {
-    position: absolute;
-    top: -14px;
-    left: 12px;
-    right: 12px;
-    display: flex;
-    justify-content: space-between;
-    pointer-events: none;
-  }
+.tv-frame {
+  background: linear-gradient(145deg, #5a2f1a, #3b1f12);
+  padding: 22px;
+  border-radius: 20px;
+  box-shadow:
+    inset -6px -6px 0 rgba(0,0,0,0.35),
+    inset 6px 6px 0 rgba(255,255,255,0.05),
+    0 20px 45px rgba(0,0,0,0.6);
+  position: relative;
+}
 
-  .lights span {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: #c33;
-    box-shadow: 0 0 6px #c33;
-  }
+.tv-frame::after {
+  content: "";
+  position: absolute;
+  right: -24px;
+  top: 42%;
+  width: 18px;
+  height: 18px;
+  background: radial-gradient(circle at 30% 30%, #fff4c2, #b28b2e);
+  border-radius: 50%;
+  box-shadow:
+    0 0 0 4px #2a1a0e,
+    0 0 0 6px #6b4a1d;
+}
 
-  .lights span:nth-child(3n) {
-    background: #2e8b57;
-    box-shadow: 0 0 6px #2e8b57;
-  }
+.lights {
+  position: absolute;
+  top: -14px;
+  left: 12px;
+  right: 12px;
+  display: flex;
+  justify-content: space-between;
+  pointer-events: none;
+}
 
-  .lights span:nth-child(4n) {
-    background: #d4af37;
-    box-shadow: 0 0 6px #d4af37;
-  }
+.lights span {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #c33;
+  box-shadow: 0 0 6px #c33;
+}
 
-  /* 화면 (16:9 유지) */
-  .tv-screen {
-    width: 760px;
-    max-width: 92vw;
-    aspect-ratio: 16 / 9;
-    background: #000;
-    border-radius: 14px;
-    overflow: hidden;
-    position: relative;
-  }
+.lights span:nth-child(3n) {
+  background: #2e8b57;
+  box-shadow: 0 0 6px #2e8b57;
+}
 
-  .tv-screen::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background:
-      radial-gradient(circle at center,
-        rgba(255,240,200,0.12),
-        rgba(0,0,0,0.8));
-    pointer-events: none;
-  }
+.lights span:nth-child(4n) {
+  background: #d4af37;
+  box-shadow: 0 0 6px #d4af37;
+}
 
-  .tv-screen iframe {
-    width: 100%;
-    height: 100%;
-    border: none;
-  }
+.tv-screen {
+  width: 760px;
+  max-width: 92vw;
+  aspect-ratio: 16 / 9;
+  background: black;
+  border-radius: 14px;
+  overflow: hidden;
+  position: relative;
+}
 
-  /* ✨ Neon Sign */
+.tv-screen::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle, rgba(255,240,200,0.12), rgba(0,0,0,0.85));
+  pointer-events: none;
+}
 
-  .neon-sign {
-    margin: 16px 0 28px;
-    text-align: center;
-    font-family: "Pacifico", cursive;
-    font-size: 44px;
-    letter-spacing: 2px;
-    color: #ffb7d5;
-    text-shadow:
-      0 0 4px #ff8ccf,
-      0 0 10px #ff4fa3,
-      0 0 20px #ff4fa3,
-      0 0 40px rgba(255,79,163,0.8),
-      0 0 70px rgba(255,79,163,0.6);
-    transform: rotate(-1.5deg);
-    animation: neonFlicker 4s infinite;
-  }
+iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
 
-  @keyframes neonFlicker {
-    0%, 100% { opacity: 1; }
-    96% { opacity: 0.85; }
-    97% { opacity: 0.6; }
-    98% { opacity: 0.9; }
-  }
+/* Controls & Playlist */
+.controls {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
 
-  /* Controls & Playlist */
+button {
+  background: #1f1f1f;
+  color: #eee;
+  border: none;
+  padding: 10px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+}
 
-  .controls {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 20px;
-  }
+button.active {
+  background: #444;
+}
 
-  button {
-    background: #1f1f1f;
-    color: #eee;
-    border: none;
-    padding: 10px 14px;
-    border-radius: 6px;
-    cursor: pointer;
-  }
+.playlist {
+  display: grid;
+  gap: 10px;
+}
 
-  button.active {
-    background: #444;
-  }
+.track {
+  padding: 14px;
+  background: #161616;
+  border-radius: 8px;
+  cursor: pointer;
+}
 
-  .playlist {
-    display: grid;
-    gap: 10px;
-  }
+.track:hover {
+  background: #2a2a2a;
+}
 
-  .track {
-    padding: 14px;
-    background: #161616;
-    border-radius: 8px;
-    cursor: pointer;
-  }
+.track.active {
+  background: #3a3a3a;
+}
 
-  .track:hover {
-    background: #2a2a2a;
-  }
-
-  .track.active {
-    background: #3a3a3a;
-  }
-
-  .track span {
-    font-size: 0.85em;
-    color: #aaa;
-  }
+.track span {
+  font-size: 0.85em;
+  color: #aaa;
+}
 </style>
 </head>
 
@@ -196,6 +192,10 @@
 <div class="container">
 
   <div class="now-playing" id="nowPlaying">Now Playing: —</div>
+
+  <div class="neon-youtube">
+    <span>▶</span>@lenaparklive
+  </div>
 
   <div class="tv">
     <div class="tv-frame">
@@ -205,22 +205,16 @@
       </div>
 
       <div class="tv-screen">
-        <iframe
-          id="player"
-          src=""
-          allow="autoplay; encrypted-media"
-          allowfullscreen>
-        </iframe>
+        <div id="player"></div>
       </div>
     </div>
   </div>
-
-  <div class="neon-sign">Lena Park</div>
 
   <div class="controls">
     <button onclick="prevTrack()">◀ Prev</button>
     <button onclick="nextTrack()">Next ▶</button>
     <button id="shuffleBtn" onclick="toggleShuffle()">Shuffle</button>
+    <button id="repeatBtn" onclick="toggleRepeat()">Repeat: OFF</button>
   </div>
 
   <div class="playlist" id="playlist"></div>
@@ -229,55 +223,79 @@
 
 <script>
 const tracks = [
-  { title: "Santa Tell Me", note: "", videoId: "UDJJnVyUvmA", start: 149 },
-  { title: "White Christmas", note: "Jazz Ver.", videoId: "f5V0PpyTXNI", start: 95 },
-  { title: "싱숭생숭", note: "with 다이나믹 듀오", videoId: "C_zfF1xdYHQ", start: 1 },
-  { title: "It's a New Christmas", note: "015B with 박정현", videoId: "0MxxHi-l9vM", start: 0 },
-  { title: "All I Want for Christmas Is You", note: "박정현 (2010)", videoId: "K04wfBmxB28", start: 5 },
-  { title: "Let It Snow", note: "BMW 연말 콘서트", videoId: "rJ0uQ4bZ0WY", start: 0 },
-  { title: "Have Yourself A Merry Little Christmas", note: "BMW 연말 콘서트", videoId: "rrK7QmfnJ1o", start: 0 },
-  { title: "Last Christmas", note: "with 다이나믹 듀오", videoId: "mLeMqtAa1PQ", start: 0, end: 267 },
-  { title: "Santa Claus Is Coming To Town", note: "Play! 콘서트", videoId: "bdl5L0hYRtM", start: 568, end: 724 },
-  { title: "하얀겨울", note: "with 김범수", videoId: "er1RYWQf0Gc", start: 0 },
-  { title: "Winter Kiss", note: "feat. 백찬", videoId: "Y-C9dZiWJaM", start: 0, end: 266 }
+  { title:"Santa Tell Me", note:"", videoId:"UDJJnVyUvmA", start:149 },
+  { title:"White Christmas", note:"Jazz Ver.", videoId:"f5V0PpyTXNI", start:95 },
+  { title:"싱숭생숭", note:"with 다이나믹 듀오", videoId:"C_zfF1xdYHQ", start:1 },
+  { title:"It's a New Christmas", note:"015B with 박정현", videoId:"0MxxHi-l9vM", start:0 },
+  { title:"All I Want for Christmas Is You", note:"2010", videoId:"K04wfBmxB28", start:5 },
+  { title:"Let It Snow", note:"BMW 연말 콘서트", videoId:"rJ0uQ4bZ0WY", start:0 },
+  { title:"Have Yourself A Merry Little Christmas", note:"BMW 연말 콘서트", videoId:"rrK7QmfnJ1o", start:0 },
+  { title:"Last Christmas", note:"with 다이나믹 듀오", videoId:"mLeMqtAa1PQ", start:0, end:267 },
+  { title:"Santa Claus Is Coming To Town", note:"Play! 콘서트", videoId:"bdl5L0hYRtM", start:568, end:724 },
+  { title:"하얀겨울", note:"with 김범수", videoId:"er1RYWQf0Gc", start:0 },
+  { title:"Winter Kiss", note:"feat. 백찬", videoId:"Y-C9dZiWJaM", start:0, end:266 }
 ];
 
+let player;
 let currentIndex = 0;
 let shuffle = false;
+let repeatMode = "off"; // off | one | all
 
-const player = document.getElementById("player");
 const playlistEl = document.getElementById("playlist");
 const nowPlaying = document.getElementById("nowPlaying");
 const shuffleBtn = document.getElementById("shuffleBtn");
+const repeatBtn = document.getElementById("repeatBtn");
+
+function onYouTubeIframeAPIReady() {
+  player = new YT.Player("player", {
+    videoId: tracks[0].videoId,
+    playerVars: { autoplay: 1 },
+    events: {
+      onReady: () => playTrack(0),
+      onStateChange: onPlayerStateChange
+    }
+  });
+}
+
+function onPlayerStateChange(e) {
+  if (e.data === YT.PlayerState.ENDED) {
+    if (repeatMode === "one") {
+      playTrack(currentIndex);
+    } else if (repeatMode === "all") {
+      nextTrack();
+    } else if (currentIndex < tracks.length - 1) {
+      nextTrack();
+    }
+  }
+}
 
 function loadPlaylist() {
   playlistEl.innerHTML = "";
-  tracks.forEach((track, index) => {
+  tracks.forEach((t, i) => {
     const div = document.createElement("div");
     div.className = "track";
-    div.innerHTML = `<strong>${track.title}</strong><br><span>${track.note}</span>`;
-    div.onclick = () => playTrack(index);
+    div.innerHTML = `<strong>${t.title}</strong><br><span>${t.note}</span>`;
+    div.onclick = () => playTrack(i);
     playlistEl.appendChild(div);
   });
 }
 
-function playTrack(index) {
-  currentIndex = index;
-  const track = tracks[index];
-
-  let src = `https://www.youtube.com/embed/${track.videoId}?autoplay=1&enablejsapi=1`;
-  if (track.start !== undefined) src += `&start=${track.start}`;
-  if (track.end !== undefined) src += `&end=${track.end}`;
-
-  player.src = src;
-  nowPlaying.textContent = `Now Playing: ${track.title}`;
+function playTrack(i) {
+  currentIndex = i;
+  const t = tracks[i];
+  player.loadVideoById({
+    videoId: t.videoId,
+    startSeconds: t.start || 0,
+    endSeconds: t.end
+  });
+  nowPlaying.textContent = `Now Playing: ${t.title}`;
   updateActive();
 }
 
 function updateActive() {
-  document.querySelectorAll(".track").forEach((el, i) => {
-    el.classList.toggle("active", i === currentIndex);
-  });
+  document.querySelectorAll(".track").forEach((el, i) =>
+    el.classList.toggle("active", i === currentIndex)
+  );
 }
 
 function nextTrack() {
@@ -297,8 +315,22 @@ function toggleShuffle() {
   shuffleBtn.classList.toggle("active", shuffle);
 }
 
+function toggleRepeat() {
+  if (repeatMode === "off") {
+    repeatMode = "one";
+    repeatBtn.textContent = "Repeat: ONE";
+    repeatBtn.classList.add("active");
+  } else if (repeatMode === "one") {
+    repeatMode = "all";
+    repeatBtn.textContent = "Repeat: ALL";
+  } else {
+    repeatMode = "off";
+    repeatBtn.textContent = "Repeat: OFF";
+    repeatBtn.classList.remove("active");
+  }
+}
+
 loadPlaylist();
-playTrack(0);
 </script>
 
 </body>

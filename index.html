@@ -4,6 +4,9 @@
 <meta charset="UTF-8">
 <title>메리나 크리스마스!</title>
 
+<!-- ✨ Neon Font -->
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+
 <style>
   body {
     margin: 0;
@@ -29,7 +32,7 @@
   .tv {
     display: flex;
     justify-content: center;
-    margin-bottom: 32px;
+    margin-bottom: 10px;
   }
 
   .tv-frame {
@@ -58,7 +61,7 @@
       0 0 0 6px #6b4a1d;
   }
 
-  /* 장식 조명 */
+  /* 🎄 장식 조명 */
   .lights {
     position: absolute;
     top: -14px;
@@ -113,6 +116,32 @@
     width: 100%;
     height: 100%;
     border: none;
+  }
+
+  /* ✨ Neon Sign */
+
+  .neon-sign {
+    margin: 16px 0 28px;
+    text-align: center;
+    font-family: "Pacifico", cursive;
+    font-size: 44px;
+    letter-spacing: 2px;
+    color: #ffb7d5;
+    text-shadow:
+      0 0 4px #ff8ccf,
+      0 0 10px #ff4fa3,
+      0 0 20px #ff4fa3,
+      0 0 40px rgba(255,79,163,0.8),
+      0 0 70px rgba(255,79,163,0.6);
+    transform: rotate(-1.5deg);
+    animation: neonFlicker 4s infinite;
+  }
+
+  @keyframes neonFlicker {
+    0%, 100% { opacity: 1; }
+    96% { opacity: 0.85; }
+    97% { opacity: 0.6; }
+    98% { opacity: 0.9; }
   }
 
   /* Controls & Playlist */
@@ -185,6 +214,8 @@
       </div>
     </div>
   </div>
+
+  <div class="neon-sign">Lena Park</div>
 
   <div class="controls">
     <button onclick="prevTrack()">◀ Prev</button>

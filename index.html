@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>메리나 크리스마스 플레이어 1.1</title>
+<title>메리나 크리스마스 플레이어 1.2</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
 <script src="https://www.youtube.com/iframe_api"></script>
@@ -62,9 +62,12 @@ body {
   width: 12px;
   height: 12px;
   border-radius: 50%;
-  background: red;
   animation: blink 1.5s infinite alternate;
+  z-index: 2;
 }
+
+.tv-lights .light.top { top: -20px; }
+.tv-lights .light.bottom { bottom: -20px; }
 
 @keyframes blink {
   0% { opacity: 0.2; transform: scale(0.8); }
@@ -227,18 +230,27 @@ function neonFlash() {
   neon.classList.add("on");
 }
 
-// 🎄 TV 주변 전구 만들기
+// 🎄 TV 주변 전구 만들기 (위/아래)
 function createLights() {
   const totalLights = 12;
   const spacing = 100 / (totalLights - 1);
+
   for(let i=0;i<totalLights;i++){
-    const light = document.createElement("div");
-    light.className = "light";
-    light.style.left = i*spacing + "%";
-    light.style.top = "-18px"; // 위쪽
-    light.style.background = ["red","green","yellow","blue"][i%4];
-    light.style.animationDelay = (Math.random()*1.5) + "s";
-    tvLights.appendChild(light);
+    const colors = ["red","green","yellow","blue"];
+
+    const lightTop = document.createElement("div");
+    lightTop.className = "light top";
+    lightTop.style.left = i*spacing + "%";
+    lightTop.style.background = colors[i%colors.length];
+    lightTop.style.animationDelay = (Math.random()*1.5) + "s";
+    tvLights.appendChild(lightTop);
+
+    const lightBottom = document.createElement("div");
+    lightBottom.className = "light bottom";
+    lightBottom.style.left = i*spacing + "%";
+    lightBottom.style.background = colors[(i+1)%colors.length];
+    lightBottom.style.animationDelay = (Math.random()*1.5) + "s";
+    tvLights.appendChild(lightBottom);
   }
 }
 

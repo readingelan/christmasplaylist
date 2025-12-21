@@ -2,70 +2,72 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
-<title>메리나 크리스마스!</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>메리나 크리스마스</title>
 
-<!-- Neon Font -->
 <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
 <script src="https://www.youtube.com/iframe_api"></script>
 
 <style>
 body {
   margin: 0;
-  padding: 30px;
+  padding: 20px;
   background: #0e0e0e;
   color: #eee;
   font-family: -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
 .container {
-  max-width: 860px;
+  max-width: 900px;
   margin: auto;
 }
 
 .now-playing {
-  margin-bottom: 8px;
-  font-size: 0.95em;
+  text-align: center;
+  font-size: 0.9em;
   color: #bbb;
+  margin-bottom: 6px;
 }
 
-/* ✨ Neon YouTube Handle */
+/* ✨ Neon */
 .neon-youtube {
+  display: block;
   text-align: center;
-  margin-bottom: 12px;
+  margin-bottom: 16px;
   font-family: "Pacifico", cursive;
-  font-size: 36px;
+  font-size: clamp(26px, 5vw, 36px);
   color: #ffb7d5;
+  text-decoration: none;
+  position: relative;
+  z-index: 10;
+  pointer-events: auto;
   text-shadow:
     0 0 4px #ff8ccf,
     0 0 10px #ff4fa3,
     0 0 20px #ff4fa3,
     0 0 40px rgba(255,79,163,0.8);
-  letter-spacing: 1.5px;
-  transform: rotate(-1deg);
-  animation: neonFlicker 4s infinite;
+  animation: flicker 4s infinite;
 }
 
 .neon-youtube span {
-  margin-right: 10px;
+  margin-right: 6px;
 }
 
-@keyframes neonFlicker {
+@keyframes flicker {
   0%, 100% { opacity: 1; }
-  96% { opacity: 0.85; }
-  97% { opacity: 0.6; }
-  98% { opacity: 0.9; }
+  97% { opacity: 0.7; }
 }
 
-/* 📺 Retro TV */
+/* 📺 TV */
 .tv {
   display: flex;
   justify-content: center;
-  margin-bottom: 26px;
+  margin-bottom: 24px;
 }
 
 .tv-frame {
   background: linear-gradient(145deg, #5a2f1a, #3b1f12);
-  padding: 22px;
+  padding: 18px;
   border-radius: 20px;
   box-shadow:
     inset -6px -6px 0 rgba(0,0,0,0.35),
@@ -74,29 +76,18 @@ body {
   position: relative;
 }
 
-.tv-frame::after {
-  content: "";
-  position: absolute;
-  right: -24px;
-  top: 42%;
-  width: 18px;
-  height: 18px;
-  background: radial-gradient(circle at 30% 30%, #fff4c2, #b28b2e);
-  border-radius: 50%;
-  box-shadow:
-    0 0 0 4px #2a1a0e,
-    0 0 0 6px #6b4a1d;
-}
-
+/* 🎄 Christmas Lights */
 .lights {
   position: absolute;
-  top: -14px;
   left: 12px;
   right: 12px;
   display: flex;
   justify-content: space-between;
   pointer-events: none;
 }
+
+.lights.top { top: -12px; }
+.lights.bottom { bottom: -12px; }
 
 .lights span {
   width: 6px;
@@ -116,12 +107,12 @@ body {
   box-shadow: 0 0 6px #d4af37;
 }
 
+/* 📺 Screen */
 .tv-screen {
-  width: 760px;
-  max-width: 92vw;
+  width: min(760px, 94vw);
   aspect-ratio: 16 / 9;
   background: black;
-  border-radius: 14px;
+  border-radius: 12px;
   overflow: hidden;
   position: relative;
 }
@@ -140,20 +131,21 @@ iframe {
   border: none;
 }
 
-/* Controls & Playlist */
+/* 🎛 Controls */
 .controls {
   display: flex;
-  gap: 10px;
-  margin-bottom: 20px;
+  gap: 8px;
+  justify-content: center;
   flex-wrap: wrap;
+  margin-bottom: 20px;
 }
 
 button {
   background: #1f1f1f;
   color: #eee;
   border: none;
-  padding: 10px 14px;
-  border-radius: 6px;
+  padding: 12px 16px;
+  border-radius: 8px;
   cursor: pointer;
 }
 
@@ -161,6 +153,7 @@ button.active {
   background: #444;
 }
 
+/* 🎵 Playlist */
 .playlist {
   display: grid;
   gap: 10px;
@@ -173,16 +166,11 @@ button.active {
   cursor: pointer;
 }
 
-.track:hover {
-  background: #2a2a2a;
-}
-
-.track.active {
-  background: #3a3a3a;
-}
+.track:hover { background: #2a2a2a; }
+.track.active { background: #3a3a3a; }
 
 .track span {
-  font-size: 0.85em;
+  font-size: 0.8em;
   color: #aaa;
 }
 </style>
@@ -193,19 +181,27 @@ button.active {
 
   <div class="now-playing" id="nowPlaying">Now Playing: —</div>
 
-  <div class="neon-youtube">
+  <a class="neon-youtube"
+     href="https://www.youtube.com/@lenaparklive"
+     target="_blank"
+     rel="noopener noreferrer">
     <span>▶</span>@lenaparklive
-  </div>
+  </a>
 
   <div class="tv">
     <div class="tv-frame">
-      <div class="lights">
+      <div class="lights top">
         <span></span><span></span><span></span><span></span><span></span>
         <span></span><span></span><span></span><span></span><span></span>
       </div>
 
       <div class="tv-screen">
         <div id="player"></div>
+      </div>
+
+      <div class="lights bottom">
+        <span></span><span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span><span></span>
       </div>
     </div>
   </div>
@@ -223,26 +219,16 @@ button.active {
 
 <script>
 const tracks = [
-  { title:"Santa Tell Me", note:"", videoId:"UDJJnVyUvmA", start:149 },
-  { title:"White Christmas", note:"Jazz Ver.", videoId:"f5V0PpyTXNI", start:95 },
-  { title:"싱숭생숭", note:"with 다이나믹 듀오", videoId:"C_zfF1xdYHQ", start:1 },
-  { title:"It's a New Christmas", note:"015B with 박정현", videoId:"0MxxHi-l9vM", start:0 },
-  { title:"All I Want for Christmas Is You", note:"2010", videoId:"K04wfBmxB28", start:5 },
-  { title:"Let It Snow", note:"BMW 연말 콘서트", videoId:"rJ0uQ4bZ0WY", start:0 },
-  { title:"Have Yourself A Merry Little Christmas", note:"BMW 연말 콘서트", videoId:"rrK7QmfnJ1o", start:0 },
-  { title:"Last Christmas", note:"with 다이나믹 듀오", videoId:"mLeMqtAa1PQ", start:0, end:267 },
-  { title:"Santa Claus Is Coming To Town", note:"Play! 콘서트", videoId:"bdl5L0hYRtM", start:568, end:724 },
-  { title:"하얀겨울", note:"with 김범수", videoId:"er1RYWQf0Gc", start:0 },
-  { title:"Winter Kiss", note:"feat. 백찬", videoId:"Y-C9dZiWJaM", start:0, end:266 }
+  { title:"Santa Tell Me", videoId:"UDJJnVyUvmA", start:149 },
+  { title:"White Christmas", videoId:"f5V0PpyTXNI", start:95 },
+  { title:"Last Christmas", videoId:"mLeMqtAa1PQ", start:0, end:267 }
 ];
 
-let player;
-let currentIndex = 0;
-let shuffle = false;
-let repeatMode = "off"; // off | one | all
+let player, currentIndex = 0;
+let shuffle = false, repeatMode = "off";
 
-const playlistEl = document.getElementById("playlist");
 const nowPlaying = document.getElementById("nowPlaying");
+const playlistEl = document.getElementById("playlist");
 const shuffleBtn = document.getElementById("shuffleBtn");
 const repeatBtn = document.getElementById("repeatBtn");
 
@@ -252,31 +238,13 @@ function onYouTubeIframeAPIReady() {
     playerVars: { autoplay: 1 },
     events: {
       onReady: () => playTrack(0),
-      onStateChange: onPlayerStateChange
+      onStateChange: e => {
+        if (e.data === YT.PlayerState.ENDED) {
+          if (repeatMode === "one") playTrack(currentIndex);
+          else if (repeatMode === "all") nextTrack();
+        }
+      }
     }
-  });
-}
-
-function onPlayerStateChange(e) {
-  if (e.data === YT.PlayerState.ENDED) {
-    if (repeatMode === "one") {
-      playTrack(currentIndex);
-    } else if (repeatMode === "all") {
-      nextTrack();
-    } else if (currentIndex < tracks.length - 1) {
-      nextTrack();
-    }
-  }
-}
-
-function loadPlaylist() {
-  playlistEl.innerHTML = "";
-  tracks.forEach((t, i) => {
-    const div = document.createElement("div");
-    div.className = "track";
-    div.innerHTML = `<strong>${t.title}</strong><br><span>${t.note}</span>`;
-    div.onclick = () => playTrack(i);
-    playlistEl.appendChild(div);
   });
 }
 
@@ -288,19 +256,12 @@ function playTrack(i) {
     startSeconds: t.start || 0,
     endSeconds: t.end
   });
-  nowPlaying.textContent = `Now Playing: ${t.title}`;
+  nowPlaying.textContent = "Now Playing: " + t.title;
   updateActive();
 }
 
-function updateActive() {
-  document.querySelectorAll(".track").forEach((el, i) =>
-    el.classList.toggle("active", i === currentIndex)
-  );
-}
-
 function nextTrack() {
-  currentIndex = shuffle
-    ? Math.floor(Math.random() * tracks.length)
+  currentIndex = shuffle ? Math.floor(Math.random() * tracks.length)
     : (currentIndex + 1) % tracks.length;
   playTrack(currentIndex);
 }
@@ -316,22 +277,29 @@ function toggleShuffle() {
 }
 
 function toggleRepeat() {
-  if (repeatMode === "off") {
-    repeatMode = "one";
-    repeatBtn.textContent = "Repeat: ONE";
-    repeatBtn.classList.add("active");
-  } else if (repeatMode === "one") {
-    repeatMode = "all";
-    repeatBtn.textContent = "Repeat: ALL";
-  } else {
-    repeatMode = "off";
-    repeatBtn.textContent = "Repeat: OFF";
-    repeatBtn.classList.remove("active");
-  }
+  repeatMode = repeatMode === "off" ? "one" : repeatMode === "one" ? "all" : "off";
+  repeatBtn.textContent = "Repeat: " + repeatMode.toUpperCase();
+  repeatBtn.classList.toggle("active", repeatMode !== "off");
+}
+
+function loadPlaylist() {
+  playlistEl.innerHTML = "";
+  tracks.forEach((t, i) => {
+    const d = document.createElement("div");
+    d.className = "track";
+    d.innerHTML = `<strong>${t.title}</strong>`;
+    d.onclick = () => playTrack(i);
+    playlistEl.appendChild(d);
+  });
+}
+
+function updateActive() {
+  document.querySelectorAll(".track").forEach((el, i) =>
+    el.classList.toggle("active", i === currentIndex)
+  );
 }
 
 loadPlaylist();
 </script>
-
 </body>
 </html>

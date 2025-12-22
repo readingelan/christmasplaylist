@@ -124,7 +124,7 @@ button.active {
   background: #444;
 }
 
-/* ℹ️ Info icon button */
+/* ℹ️ Info icon */
 .info-btn {
   width: 42px;
   height: 42px;
@@ -238,14 +238,18 @@ const tracks = [
   { title:"All I Want for Christmas Is You", note:"박정현", videoId:"K04wfBmxB28", start:5 },
   { title:"Winter Kiss", note:"박정현 (feat. 백찬)", videoId:"Y-C9dZiWJaM", start:0 },
   { title:"Let It Snow", note:"박정현", videoId:"rJ0uQ4bZ0WY", start:0 },
-  { title:"Last Christmas", note:"박정현 & 다이나믹 듀오", videoId:"mLeMqtAa1PQ", start:0,end:267},
-  { title:"Santa Claus Is Coming To Town", note:"박정현", videoId:"bdl5L0hYRtM", start:568, end:724},
+  { title:"Last Christmas", note:"박정현 & 다이나믹 듀오", videoId:"mLeMqtAa1PQ", start:0, end:267 },
+  { title:"Santa Claus Is Coming To Town", note:"박정현", videoId:"bdl5L0hYRtM", start:568, end:724 },
   { title:"하얀겨울", note:"박정현 & 김범수", videoId:"er1RYWQf0Gc", start:0 },
   { title:"The First Noel", note:"박정현", videoId:"sgutlOIsYb0", start:0 },
   { title:"Have Yourself A Merry Little Christmas", note:"박정현", videoId:"rrK7QmfnJ1o", start:0 }
 ];
 
-let player, currentIndex = 0, shuffle = false, repeatMode = "off";
+let player;
+let currentIndex = 0;
+let shuffle = false;
+let repeatMode = "off";
+
 const neon = document.querySelector(".neon-youtube");
 const nowPlaying = document.getElementById("nowPlaying");
 const playlistEl = document.getElementById("playlist");
@@ -261,10 +265,13 @@ function neonFlash() {
 function onYouTubeIframeAPIReady() {
   player = new YT.Player("player", {
     videoId: tracks[0].videoId,
+    playerVars: { autoplay: 0 },
     events: {
       onReady: () => playTrack(0),
       onStateChange: e => {
-        if (e.data === YT.PlayerState.ENDED) nextTrack();
+        if (e.data === YT.PlayerState.ENDED) {
+          nextTrack();
+        }
       }
     }
   });
@@ -273,19 +280,27 @@ function onYouTubeIframeAPIReady() {
 function playTrack(i) {
   currentIndex = i;
   const t = tracks[i];
-  player.loadVideoById({ videoId: t.videoId, startSeconds: t.start || 0 });
+
+  player.loadVideoById({
+    videoId: t.videoId,
+    startSeconds: t.start || 0,
+    endSeconds: t.end
+  });
+
   nowPlaying.textContent = "Now Playing: " + t.title;
   neonFlash();
   updateActive();
 }
 
 function nextTrack() {
-  currentIndex = shuffle ? Math.floor(Math.random()*tracks.length) : (currentIndex+1)%tracks.length;
+  currentIndex = shuffle
+    ? Math.floor(Math.random() * tracks.length)
+    : (currentIndex + 1) % tracks.length;
   playTrack(currentIndex);
 }
 
 function prevTrack() {
-  currentIndex = (currentIndex-1+tracks.length)%tracks.length;
+  currentIndex = (currentIndex - 1 + tracks.length) % tracks.length;
   playTrack(currentIndex);
 }
 
@@ -300,7 +315,7 @@ function toggleRepeat() {
 }
 
 function loadPlaylist() {
-  tracks.forEach((t,i)=>{
+  tracks.forEach((t, i) => {
     const d = document.createElement("div");
     d.className = "track";
     d.innerHTML = `<strong>${t.title}</strong><br><span>${t.note}</span>`;
@@ -310,8 +325,11 @@ function loadPlaylist() {
 }
 
 function updateActive() {
-  document.querySelectorAll(".track").forEach((el,i)=>{
-    el.classList.toggle("active", i===currentIndex);
+  document.querySelectorAll(".track").forEach((el, i) => {
+    el.classList.toggle("active", i === currentIndex);
+    if (i === currentIndex) {
+      el.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
   });
 }
 

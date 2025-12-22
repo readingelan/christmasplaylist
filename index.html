@@ -56,10 +56,6 @@ body {
   background: linear-gradient(145deg, #5a2f1a, #3b1f12);
   padding: 20px;
   border-radius: 22px;
-  box-shadow:
-    inset -6px -6px 0 rgba(0,0,0,0.35),
-    inset 6px 6px 0 rgba(255,255,255,0.05),
-    0 20px 45px rgba(0,0,0,0.6);
 }
 
 .tv-screen {
@@ -91,7 +87,6 @@ iframe {
 .guide-overlay img {
   max-width: 100%;
   max-height: 100%;
-  object-fit: contain;
   border-radius: 12px;
 }
 
@@ -99,7 +94,7 @@ iframe {
 .now-playing {
   font-size: 0.95em;
   color: #bbb;
-  margin: 10px 4px 10px;
+  margin: 10px 4px;
 }
 
 /* 🎛 Controls */
@@ -124,27 +119,19 @@ button.active {
   background: #444;
 }
 
-/* ℹ️ Info icon */
+/* ℹ️ Info */
 .info-btn {
   width: 42px;
   height: 42px;
   padding: 0;
   border-radius: 50%;
   font-size: 18px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.info-btn:hover {
-  background: #2f2f2f;
 }
 
 /* 🎵 Playlist */
 .playlist-wrap {
   max-height: 45vh;
   overflow-y: auto;
-  padding-right: 6px;
 }
 
 .playlist {
@@ -159,13 +146,8 @@ button.active {
   cursor: pointer;
 }
 
-.track:hover { background: #2a2a2a; }
 .track.active { background: #3a3a3a; }
-
-.track span {
-  font-size: 0.8em;
-  color: #aaa;
-}
+.track span { font-size: 0.8em; color: #aaa; }
 
 /* ⓒ */
 .presented-by {
@@ -174,14 +156,9 @@ button.active {
   font-size: 0.75em;
   color: #666;
 }
-
 .presented-by a {
   color: #888;
   text-decoration: none;
-}
-
-.presented-by a:hover {
-  color: #ffb7d5;
 }
 </style>
 </head>
@@ -189,10 +166,7 @@ button.active {
 <body>
 <div class="container">
 
-<a class="neon-youtube"
-   href="https://www.youtube.com/@lenaparklive"
-   target="_blank"
-   rel="noopener noreferrer">
+<a class="neon-youtube" href="https://www.youtube.com/@lenaparklive" target="_blank">
 ▶ @lenaparklive
 </a>
 
@@ -201,9 +175,8 @@ button.active {
     <div class="tv-screen">
       <div id="player"></div>
 
-      <!-- 안내 이미지 -->
       <div id="guideOverlay" class="guide-overlay" onclick="hideGuide()">
-        <img src="guide.jpg" alt="플레이어 안내">
+        <img src="guide.jpg" alt="안내">
       </div>
     </div>
   </div>
@@ -215,8 +188,8 @@ button.active {
   <button onclick="prevTrack()">◀ Prev</button>
   <button onclick="nextTrack()">Next ▶</button>
   <button id="shuffleBtn" onclick="toggleShuffle()">Shuffle</button>
-  <button id="repeatBtn" onclick="toggleRepeat()">Repeat: OFF</button>
-  <button class="info-btn" onclick="showGuide()" aria-label="안내">ℹ️</button>
+  <button id="repeatBtn" onclick="toggleRepeat()">Repeat: ALL</button>
+  <button class="info-btn" onclick="showGuide()">ℹ️</button>
 </div>
 
 <div class="playlist-wrap">
@@ -248,48 +221,59 @@ const tracks = [
 let player;
 let currentIndex = 0;
 let shuffle = false;
-let repeatMode = "off";
+let repeatMode = "all"; // off | one | all
+let endChecker;
 
-const neon = document.querySelector(".neon-youtube");
 const nowPlaying = document.getElementById("nowPlaying");
 const playlistEl = document.getElementById("playlist");
-const shuffleBtn = document.getElementById("shuffleBtn");
 const repeatBtn = document.getElementById("repeatBtn");
-
-function neonFlash() {
-  neon.classList.remove("on");
-  void neon.offsetWidth;
-  neon.classList.add("on");
-}
 
 function onYouTubeIframeAPIReady() {
   player = new YT.Player("player", {
     videoId: tracks[0].videoId,
-    playerVars: { autoplay: 0 },
     events: {
       onReady: () => playTrack(0),
-      onStateChange: e => {
-        if (e.data === YT.PlayerState.ENDED) {
-          nextTrack();
-        }
-      }
+      onStateChange: onPlayerStateChange
     }
   });
 }
 
 function playTrack(i) {
+  clearInterval(endChecker);
   currentIndex = i;
   const t = tracks[i];
 
   player.loadVideoById({
     videoId: t.videoId,
-    startSeconds: t.start || 0,
-    endSeconds: t.end
+    startSeconds: t.start || 0
   });
 
   nowPlaying.textContent = "Now Playing: " + t.title;
-  neonFlash();
   updateActive();
+
+  if (t.end) {
+    endChecker = setInterval(() => {
+      if (player.getCurrentTime() >= t.end) {
+        handleTrackEnd();
+      }
+    }, 500);
+  }
+}
+
+function handleTrackEnd() {
+  clearInterval(endChecker);
+
+  if (repeatMode === "one") {
+    playTrack(currentIndex);
+  } else if (repeatMode === "all") {
+    nextTrack();
+  }
+}
+
+function onPlayerStateChange(e) {
+  if (e.data === YT.PlayerState.ENDED) {
+    handleTrackEnd();
+  }
 }
 
 function nextTrack() {
@@ -306,16 +290,18 @@ function prevTrack() {
 
 function toggleShuffle() {
   shuffle = !shuffle;
-  shuffleBtn.classList.toggle("active", shuffle);
 }
 
 function toggleRepeat() {
-  repeatMode = repeatMode === "off" ? "one" : "off";
+  repeatMode =
+    repeatMode === "off" ? "one" :
+    repeatMode === "one" ? "all" : "off";
+
   repeatBtn.textContent = "Repeat: " + repeatMode.toUpperCase();
 }
 
 function loadPlaylist() {
-  tracks.forEach((t, i) => {
+  tracks.forEach((t,i)=>{
     const d = document.createElement("div");
     d.className = "track";
     d.innerHTML = `<strong>${t.title}</strong><br><span>${t.note}</span>`;
@@ -325,24 +311,19 @@ function loadPlaylist() {
 }
 
 function updateActive() {
-  document.querySelectorAll(".track").forEach((el, i) => {
+  document.querySelectorAll(".track").forEach((el,i)=>{
     el.classList.toggle("active", i === currentIndex);
-    if (i === currentIndex) {
-      el.scrollIntoView({ behavior: "smooth", block: "center" });
-    }
   });
 }
 
 function showGuide() {
   document.getElementById("guideOverlay").style.display = "flex";
 }
-
 function hideGuide() {
   document.getElementById("guideOverlay").style.display = "none";
 }
 
 loadPlaylist();
 </script>
-
 </body>
 </html>

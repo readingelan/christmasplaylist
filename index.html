@@ -150,6 +150,28 @@ button.active {
   color: #ffb7d5;
   text-shadow: 0 0 4px rgba(255,183,213,0.5);
 }
+  /* tv 화면 기준 잡기 */
+.tv-screen {
+  position: relative; /* 필수 */
+}
+
+/* 📘 재생 전 안내 오버레이 */
+.guide-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 5;
+}
+
+.guide-overlay img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  border-radius: 12px;
+}
   
 </style>
 </head>
@@ -165,11 +187,14 @@ button.active {
   </a>
 
   <div class="tv">
-    <div class="tv-frame">
-      <div class="tv-screen">
-        <div id="player"></div>
-      </div>
-    </div>
+    <div class="tv-screen">
+  <div id="player"></div>
+
+  <!-- 📘 재생 전 안내 이미지 -->
+  <div id="guideOverlay" class="guide-overlay">
+    <img src="guide.jpg" alt="플레이어 사용 안내">
+  </div>
+</div>
   </div>
 
   <div class="now-playing" id="nowPlaying">Now Playing: —</div>
@@ -240,6 +265,14 @@ function onYouTubeIframeAPIReady() {
     events: {
       onReady: () => playTrack(0),
       onStateChange: e => {
+
+        // ▶ 재생 시작되면 가이드 숨김
+        if (e.data === YT.PlayerState.PLAYING) {
+          const guide = document.getElementById("guideOverlay");
+          if (guide) guide.style.display = "none";
+        }
+
+        // 곡 종료 처리
         if (e.data === YT.PlayerState.ENDED) {
           repeatMode === "one" ? playTrack(currentIndex) : nextTrack();
         }

@@ -208,7 +208,7 @@ const tracks = [
   { title:"White Christmas (Jazz Ver.)", note:"박정현", videoId:"f5V0PpyTXNI", start:95 },
   { title:"Santa Tell Me", note:"박정현", videoId:"UDJJnVyUvmA", start:149 },
   { title:"싱숭생숭", note:"박정현 & 다이나믹 듀오", videoId:"C_zfF1xdYHQ", start:0, end:266},
-  { title:"It's a New Christmas", note:"015B with 박정현 at 두시탈출 컬투쇼(2025.12.23) ", videoId:"cm_TMy6ghYg", start:0, end:194 },
+  { title:"It's a New Christmas", note:"015B with 박정현 at 두시탈출 컬투쇼(2025.12.23) ", videoId:"cm_TMy6ghYg", start:0, end:192},
   { title:"All I Want for Christmas Is You", note:"박정현 at 한중가요제(2010.12.12)", videoId:"K04wfBmxB28", start:5 },
   { title:"Winter Kiss (MV)", note:"박정현 (feat. 백찬)", videoId:"Y-C9dZiWJaM", start:0 },
   { title:"Let It Snow", note:"박정현 at 2022 BMW 연말 콘서트 (2022.12.17)", videoId:"rJ0uQ4bZ0WY", start:0 },
@@ -249,8 +249,11 @@ function onYouTubeIframeAPIReady() {
 
 function onPlayerStateChange(e) {
   if (e.data === YT.PlayerState.ENDED) {
-    if (repeatMode === "one") playTrack(currentIndex);
-    else if (repeatMode === "all") nextTrack();
+    if (repeatMode === "one") {
+      playTrack(currentIndex);   // 한 곡 반복
+    } else {
+      nextTrack();               // off / all → 다음 곡
+    }
   }
 }
 
